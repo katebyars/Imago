@@ -61,8 +61,8 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
         mWebsiteLabel.setText(mImage.getImageWebsiteLabel());
 
         mWebsiteLabel.setOnClickListener(this);
-//        mPhoneLabel.setOnClickListener(this);
-//        mAddressLabel.setOnClickListener(this);
+        mProfileNameLabel.setOnClickListener(this);
+        mNameLabel.setOnClickListener(this);
 
         return view;
     }
@@ -74,12 +74,12 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                     Uri.parse(mImage.getImageWebsiteLabel()));
             startActivity(webIntent);
         }
-//        if (v == mPhoneLabel) {
+//        if (v == mProfileNameLabel) {
 //            Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
 //                    Uri.parse("tel:" + mRestaurant.getPhone()));
 //            startActivity(phoneIntent);
 //        }
-//        if (v == mAddressLabel) {
+//        if (v == mNameLabel) {
 //            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
 //                    Uri.parse("geo:" + mRestaurant.getLatitude()
 //                            + "," + mRestaurant.getLongitude()

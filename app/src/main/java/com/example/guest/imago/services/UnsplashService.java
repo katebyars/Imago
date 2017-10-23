@@ -32,47 +32,34 @@ public class UnsplashService {
             JSONArray imagesJSON = unsplashJSON.getJSONArray("results");
             for (int i = 0; i < imagesJSON.length(); i++) {
 
-                String photographerName = imagesJSON
-                        .getJSONObject(i)
-                        .getJSONObject("user")
-                        .getString("username");
 
+                    String photographerName = imagesJSON
+                            .getJSONObject(i)
+                            .getJSONObject("user")
+                            .getString("username");
 
-                String imageUrl = imagesJSON
-                        .getJSONObject(i)
-                        .getJSONObject("urls")
-                        .getString("small");
+                    String imageUrl = imagesJSON
+                            .getJSONObject(i)
+                            .getJSONObject("urls")
+                            .getString("small");
 
-                String imageName = imagesJSON
-                        .getJSONObject(i)
-                        .getString("description");
+                    String imageName = imagesJSON
+                            .getJSONObject(i)
+                            .getString("description");
 
-                String photographerWebsite = imagesJSON
-                        .getJSONObject(i)
-                        .getJSONObject("user")
-                        .getString("portfolio_url");
+                    String photographerWebsite = imagesJSON
+                            .getJSONObject(i)
+                            .getJSONObject("user")
+                            .getString("portfolio_url");
 
-                String location = imagesJSON
-                        .getJSONObject(i)
-                        .getJSONObject("user")
-                        .getString("location");
+                    String location = imagesJSON
+                            .getJSONObject(i)
+                            .getJSONObject("user")
+                            .getString("location");
 
-//                String imageUrl = imageJSON.getString("imageURL");
-//
-//                JSONArray JSONuser = imageJSON.getJSONArray("user");
-//
-//                String photographerName = imageJSON.getString("user");
-//                String photographerWebsite = imageJSON.getString("profile_url");
-//                String location = imageJSON.getString("location");
-//                ArrayList<String> images = new ArrayList<>();
-//                JSONArray photographsJSON = imageJSON.getJSONObject("photos")
-//                        .getJSONArray("urls");
-//                for (int y = 0; y < photographsJSON.length(); y++) {
-//                    images.add(photographsJSON.get(y).toString());
-//                }
+                    Image image = new Image(imageUrl, imageName, photographerName, photographerWebsite, location);
+                    images.add(image);
 
-                Image image = new Image(imageUrl, imageName, photographerName, photographerWebsite, location);
-                images.add(image);
             }
         }
         catch (IOException e){

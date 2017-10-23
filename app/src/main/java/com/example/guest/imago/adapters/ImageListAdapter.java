@@ -3,6 +3,7 @@ package com.example.guest.imago.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,8 @@ import com.example.guest.imago.ui.ImageDetailActivity;
 import com.example.guest.imago.ui.ImageDetailFragment;
 import com.example.guest.imago.ui.ImageListActivity;
 import com.squareup.picasso.Picasso;
-
 import org.parceler.Parcels;
-
 import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -73,7 +71,6 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
                     .into(mImageImageView);
 
             mImageNameTextView.setText(image.getImageName());
-           //matches the image view on the recycler view ?
         }
 
         @Override
@@ -83,6 +80,9 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
             intent.putExtra("position", itemPosition + "");
             intent.putExtra("images", Parcels.wrap(mImages));
             mContext.startActivity(intent);
+            Log.d("onClickwords","hello");
+
+
         }
     }
 }
