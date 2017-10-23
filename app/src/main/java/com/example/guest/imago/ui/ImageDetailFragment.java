@@ -11,9 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.epicodus.myrestaurants.R;
-import com.epicodus.myrestaurants.models.Restaurant;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -25,51 +22,46 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     private static final int MAX_WIDTH = 400;
     private static final int MAX_HEIGHT = 300;
 
-    @Bind(R.id.restaurantImageView) ImageView mImageLabel;
-    @Bind(R.id.restaurantNameTextView) TextView mNameLabel;
-    @Bind(R.id.cuisineTextView) TextView mCategoriesLabel;
-    @Bind(R.id.ratingTextView) TextView mRatingLabel;
-    @Bind(R.id.websiteTextView) TextView mWebsiteLabel;
-    @Bind(R.id.phoneTextView) TextView mPhoneLabel;
-    @Bind(R.id.addressTextView) TextView mAddressLabel;
-    @Bind(R.id.saveRestaurantButton) TextView mSaveRestaurantButton;
+    @Bind(R.id.imageImageView) ImageView mImageLabel;
+    @Bind(R.id.imageNameTextView) TextView mNameLabel;
+    @Bind(R.id.imagePhotographerUserNameTextView) TextView mProfileNameLabel;
+    @Bind(R.id.imagePhotographerwebsiteTextView) TextView mWebsiteLabel;
+    @Bind(R.id.saveImageButton)
 
-    private Restaurant mRestaurant;
+    private Image mImage;
 
-    public static RestaurantDetailFragment newInstance(Restaurant restaurant) {
-        RestaurantDetailFragment restaurantDetailFragment = new RestaurantDetailFragment();
+    public static ImageDetailFragment newInstance(Image image) {
+        ImageDetailFragment imageDetailFragment = new ImageDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable("restaurant", Parcels.wrap(restaurant));
-        restaurantDetailFragment.setArguments(args);
-        return restaurantDetailFragment;
+        args.putParcelable("image", Parcels.wrap(image));
+        imageDetailFragment.setArguments(args);
+        return imageDetailFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRestaurant = Parcels.unwrap(getArguments().getParcelable("restaurant"));
+        mImage = Parcels.unwrap(getArguments().getParcelable("image"));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_restaurant_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
         ButterKnife.bind(this, view);
 
         Picasso.with(view.getContext())
-                .load(mRestaurant.getImageUrl())
+                .load(mImage.getImageUrl())
                 .resize(MAX_WIDTH, MAX_HEIGHT)
                 .centerCrop()
                 .into(mImageLabel);
 
-        mNameLabel.setText(mRestaurant.getName());
-        mCategoriesLabel.setText(android.text.TextUtils.join(", ", mRestaurant.getCategories()));
-        mRatingLabel.setText(Double.toString(mRestaurant.getRating()) + "/5");
-        mPhoneLabel.setText(mRestaurant.getPhone());
-        mAddressLabel.setText(android.text.TextUtils.join(", ", mRestaurant.getAddress()));
+        mNameLabel.setText(mImage.getName());
+        mProfileNameLabel.setText(mProfileNameLabel.getProfileNameLabel());
+        mWebsiteLabel.setText(mWebsiteLabel.getWebsiteLable());
 
         mWebsiteLabel.setOnClickListener(this);
-        mPhoneLabel.setOnClickListener(this);
-        mAddressLabel.setOnClickListener(this);
+//        mPhoneLabel.setOnClickListener(this);
+//        mAddressLabel.setOnClickListener(this);
 
         return view;
     }
@@ -78,19 +70,20 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         if (v == mWebsiteLabel) {
             Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(mRestaurant.getWebsite()));
+                    Uri.parse(mWebsiteLabel.getWebsite()));
             startActivity(webIntent);
         }
-        if (v == mPhoneLabel) {
-            Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
-                    Uri.parse("tel:" + mRestaurant.getPhone()));
-            startActivity(phoneIntent);
-        }
-        if (v == mAddressLabel) {
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("geo:" + mRestaurant.getLatitude()
-                            + "," + mRestaurant.getLongitude()
-                            + "?q=(" + mRestaurant.getName() + ")"));
-            startActivity(mapIntent);
-        }
+//        if (v == mPhoneLabel) {
+//            Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
+//                    Uri.parse("tel:" + mRestaurant.getPhone()));
+//            startActivity(phoneIntent);
+//        }
+//        if (v == mAddressLabel) {
+//            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
+//                    Uri.parse("geo:" + mRestaurant.getLatitude()
+//                            + "," + mRestaurant.getLongitude()
+//                            + "?q=(" + mRestaurant.getName() + ")"));
+//            startActivity(mapIntent);
+//        }
     }
+}

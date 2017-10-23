@@ -48,16 +48,16 @@ public class ImageListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) {
-                mRestaurants = yelpService.processResults(response);
+                mImages = unsplashService.processResults(response);
 
-                RestaurantListActivity.this.runOnUiThread(new Runnable() {
+                ImageListActivity.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        mAdapter = new RestaurantListAdapter(getApplicationContext(), mRestaurants);
+                        mAdapter = new ImageListAdapter(getApplicationContext(), mImages);
                         mRecyclerView.setAdapter(mAdapter);
                         RecyclerView.LayoutManager layoutManager =
-                                new LinearLayoutManager(RestaurantListActivity.this);
+                                new LinearLayoutManager(ImageListActivity.this);
                         mRecyclerView.setLayoutManager(layoutManager);
                         mRecyclerView.setHasFixedSize(true);
                     }
