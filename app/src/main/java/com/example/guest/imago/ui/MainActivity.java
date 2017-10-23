@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v == mFindImagesButton) {
-            String search = mSearchEditText.getText().toString();
+            String query = mSearchEditText.getText().toString();
             Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
-            intent.putExtra("search", search);
+            intent.putExtra("query", query);
             startActivity(intent);
         }
     }

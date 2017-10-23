@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
@@ -35,7 +36,6 @@ public class ImageListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
-
         getImages(query);
     }
 
@@ -52,6 +52,7 @@ public class ImageListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) {
                 mImages = unsplashService.processResults(response);
+                Log.d("response", response.toString());
 
                 ImageListActivity.this.runOnUiThread(new Runnable() {
 

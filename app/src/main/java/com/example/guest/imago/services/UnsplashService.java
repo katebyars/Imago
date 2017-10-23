@@ -29,14 +29,41 @@ public class UnsplashService {
             String jsonData = response.body().string();
             JSONObject unsplashJSON = new JSONObject(jsonData);
 
-            JSONArray businessesJSON = unsplashJSON.getJSONArray("images");
-            for (int i = 0; i < businessesJSON.length(); i++) {
-                JSONObject imageJSON = businessesJSON.getJSONObject(i);
-                String imageUrl = imageJSON.getString("imageURL");
-                String imageName = imageJSON.getString("username");
-                String photographerName = imageJSON.getString("profile_image");
-                String photographerWebsite = imageJSON.getString("profile_url");
-                String location = imageJSON.getString("location");
+            JSONArray imagesJSON = unsplashJSON.getJSONArray("results");
+            for (int i = 0; i < imagesJSON.length(); i++) {
+
+                String photographerName = imagesJSON
+                        .getJSONObject(i)
+                        .getJSONObject("user")
+                        .getString("username");
+
+
+                String imageUrl = imagesJSON
+                        .getJSONObject(i)
+                        .getJSONObject("urls")
+                        .getString("small");
+
+                String imageName = imagesJSON
+                        .getJSONObject(i)
+                        .getString("description");
+
+                String photographerWebsite = imagesJSON
+                        .getJSONObject(i)
+                        .getJSONObject("user")
+                        .getString("portfolio_url");
+
+                String location = imagesJSON
+                        .getJSONObject(i)
+                        .getJSONObject("user")
+                        .getString("location");
+
+//                String imageUrl = imageJSON.getString("imageURL");
+//
+//                JSONArray JSONuser = imageJSON.getJSONArray("user");
+//
+//                String photographerName = imageJSON.getString("user");
+//                String photographerWebsite = imageJSON.getString("profile_url");
+//                String location = imageJSON.getString("location");
 //                ArrayList<String> images = new ArrayList<>();
 //                JSONArray photographsJSON = imageJSON.getJSONObject("photos")
 //                        .getJSONArray("urls");
@@ -72,5 +99,6 @@ public class UnsplashService {
 
         Call call = client.newCall(request);
         call.enqueue(callback);
+        Log.d("url", url);
     }
 }
