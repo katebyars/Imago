@@ -12,6 +12,7 @@ import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.ui.ImageDetailActivity;
 import com.example.guest.imago.ui.ImageDetailFragment;
+import com.example.guest.imago.ui.ImageListActivity;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -21,15 +22,16 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ImageListAdapter { private static final int MAX_WIDTH = 200;
+public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ImageViewHolder> {
+        private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
 
     private ArrayList<Image> mImages = new ArrayList<>();
     private Context mContext;
 
-    public ImageListAdapter(Context context, ArrayList<Image> restaurants) {
+    public ImageListAdapter(Context context, ArrayList<Image> images) {
         mContext = context;
-        mImages = restaurants;
+        mImages = images;
     }
 
     @Override
@@ -51,10 +53,8 @@ public class ImageListAdapter { private static final int MAX_WIDTH = 200;
 
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.imageImageView)
-        ImageView mImageImageView;
-        @Bind(R.id.imageNameTextview)
-        TextView mImageNameTextView;
+        @Bind(R.id.imageImageView) ImageView mImageImageView;
+        @Bind(R.id.imageNameTextView) TextView mImageNameTextView;
         private Context mContext;
 
         public ImageViewHolder(View itemView) {
@@ -65,7 +65,7 @@ public class ImageListAdapter { private static final int MAX_WIDTH = 200;
             itemView.setOnClickListener(this);
         }
 
-        public void bindRestaurant(Image image) {
+        public void bindImage(Image image) {
             Picasso.with(mContext)
                     .load(image.getImageUrl())
                     .resize(MAX_WIDTH, MAX_HEIGHT)
@@ -81,7 +81,7 @@ public class ImageListAdapter { private static final int MAX_WIDTH = 200;
             int itemPosition = getLayoutPosition();
             Intent intent = new Intent(mContext, ImageDetailActivity.class);
             intent.putExtra("position", itemPosition + "");
-            intent.putExtra("restaurants", Parcels.wrap(mImages));
+            intent.putExtra("images", Parcels.wrap(mImages));
             mContext.startActivity(intent);
         }
     }

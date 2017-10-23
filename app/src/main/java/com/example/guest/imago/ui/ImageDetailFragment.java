@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
 import com.squareup.picasso.Picasso;
 
@@ -55,8 +56,8 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                 .into(mImageLabel);
 
         mNameLabel.setText(mImage.getImageName());
-        mProfileNameLabel.setText(mProfileNameLabel.getProfileNameLabel());
-        mWebsiteLabel.setText(mWebsiteLabel.getWebsiteLable());
+        mProfileNameLabel.setText(mImage.getImagePhotographerUserName());
+        mWebsiteLabel.setText(mImage.getImageWebsiteLabel());
 
         mWebsiteLabel.setOnClickListener(this);
 //        mPhoneLabel.setOnClickListener(this);
@@ -69,7 +70,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         if (v == mWebsiteLabel) {
             Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(mWebsiteLabel.getWebsite()));
+                    Uri.parse(mImage.getImageWebsiteLabel()));
             startActivity(webIntent);
         }
 //        if (v == mPhoneLabel) {
