@@ -2,18 +2,24 @@ package com.example.guest.imago.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.ui.ImageDetailActivity;
 import com.example.guest.imago.ui.ImageDetailFragment;
+import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class ImageListAdapter { private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
