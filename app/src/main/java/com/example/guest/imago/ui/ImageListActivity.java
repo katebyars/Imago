@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.services.UnsplashService;

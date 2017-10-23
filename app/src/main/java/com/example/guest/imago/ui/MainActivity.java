@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.guest.imago.R;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 

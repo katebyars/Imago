@@ -28,7 +28,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/locationEditText"
+        android:id="@+id/searchEditText"
         android:background="@color/colorAccent"
         android:layout_above="@+id/findImagesButton"
         android:layout_marginBottom="10dp"
