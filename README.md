@@ -9,12 +9,11 @@
 _Today, photographers abound. That special 'instagrammable' style, however, is not so plentiful, epecially as you peruse the studio listings in your town. If you want a portrait that is different than the norm, or simply want to get those social media worthy shots, use this app! It uses the Unsplash API to find photographers that live in or are shooting in your town.This is an app created for the Introduction to Programming course at Epicodus, Portland. This app is currently under construction and does not represent the MVP._
 
 _The home page includes a search box and submit button, along with a bottom nav bar._
-![Description](https://github.com/katebyars/imago/blob/master/img/1.png)
+![Description](https://github.com/katebyars/imago/blob/master/img/a1.png)
 _Search results appear in a separate activity with description and image thumb nail. I will add logic later to handle 'null' cases._
-![Description](https://github.com/katebyars/imago/blob/master/img/2.png)
+![Description](https://github.com/katebyars/imago/blob/master/img/a2.png)
 _Each image has a detail fragment. I will update this fragment with logic that corresponds to more image details_
-![Description](https://github.com/katebyars/imago/blob/master/img/3.png)
-_Once the pizza is added to the order, the user can see that pizza's details in the Your Order area._
+![Description](https://github.com/katebyars/imago/blob/master/img/a3.png)
 
 
 ## Specs
