@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.guest.imago.ui.MainActivity"
-    android:background="#000000">
+    android:background="#ffffff">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -14,6 +14,7 @@
         android:scaleType="centerCrop" />
 
     <TextView
+        android:id="@+id/appNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Imago"
@@ -23,7 +24,7 @@
         android:textColor="@color/colorAccent"
         android:textSize="60sp"
         android:textStyle="bold"
-        android:id="@+id/appNameTextView"/>
+       />
 
     <EditText
         android:layout_width="wrap_content"
@@ -45,4 +46,5 @@
         android:textColor="@color/colorPrimary"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

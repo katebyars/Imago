@@ -15,10 +15,12 @@ import com.example.guest.imago.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.example.guest.imago.R.id.appNameTextView;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.findImagesButton) Button mFindImagesButton;
     @Bind(R.id.searchEditText) EditText mSearchEditText;
-//    @Bind(R.id.appNameTextView) TextView mAppNameTextView;
+    @Bind(R.id.appNameTextView) TextView mAppNameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        Typeface ostrichFont = Typeface.createFromAsset(getAssets(), "fonts/ostrich-regular.ttf");
-//        mAppNameTextView.setTypeface(ostrichFont);
+        Typeface latoThin = Typeface.createFromAsset(getAssets(), "fonts/Lato-Thin.ttf");
+        mAppNameTextView.setTypeface(latoThin);
 
         mFindImagesButton.setOnClickListener(this);
     }
