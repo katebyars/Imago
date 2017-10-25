@@ -1,8 +1,10 @@
 package com.example.guest.imago.models;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 
-
+@Parcel
 public class Image {
 
     private String imageUrl;
@@ -11,6 +13,8 @@ public class Image {
     private String imageWebsiteLabel;
     private String location;
 
+
+    public Image () {}
     public Image(String imageUrl, String imageName, String imagePhotographerUserName, String imageWebsiteLabel, String location) {
         this.imageUrl = imageUrl;
         this.imageName = imageName;

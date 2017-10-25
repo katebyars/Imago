@@ -1,7 +1,4 @@
 package com.example.guest.imago.ui;
-
-
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,8 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.guest.imago.R;
+import com.example.guest.imago.models.Image;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -26,7 +27,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     @Bind(R.id.imageNameTextView) TextView mNameLabel;
     @Bind(R.id.imagePhotographerUserNameTextView) TextView mProfileNameLabel;
     @Bind(R.id.imagePhotographerwebsiteTextView) TextView mWebsiteLabel;
-    @Bind(R.id.saveImageButton)
+    @Bind(R.id.saveImageButton) Button mSaveImageButton;
 
     private Image mImage;
 
@@ -55,13 +56,13 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                 .centerCrop()
                 .into(mImageLabel);
 
-        mNameLabel.setText(mImage.getName());
-        mProfileNameLabel.setText(mProfileNameLabel.getProfileNameLabel());
-        mWebsiteLabel.setText(mWebsiteLabel.getWebsiteLable());
+        mNameLabel.setText(mImage.getImageName());
+        mProfileNameLabel.setText(mImage.getImagePhotographerUserName());
+        mWebsiteLabel.setText(mImage.getImageWebsiteLabel());
 
         mWebsiteLabel.setOnClickListener(this);
-//        mPhoneLabel.setOnClickListener(this);
-//        mAddressLabel.setOnClickListener(this);
+        mProfileNameLabel.setOnClickListener(this);
+        mNameLabel.setOnClickListener(this);
 
         return view;
     }
@@ -70,15 +71,15 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         if (v == mWebsiteLabel) {
             Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(mWebsiteLabel.getWebsite()));
+                    Uri.parse(mImage.getImageWebsiteLabel()));
             startActivity(webIntent);
         }
-//        if (v == mPhoneLabel) {
+//        if (v == mProfileNameLabel) {
 //            Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
 //                    Uri.parse("tel:" + mRestaurant.getPhone()));
 //            startActivity(phoneIntent);
 //        }
-//        if (v == mAddressLabel) {
+//        if (v == mNameLabel) {
 //            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
 //                    Uri.parse("geo:" + mRestaurant.getLatitude()
 //                            + "," + mRestaurant.getLongitude()

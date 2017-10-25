@@ -10,15 +10,17 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/imageView"
+        android:src="@color/colorAccent"
         android:scaleType="centerCrop" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MyRestaurants"
+        android:text="Imago"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
+        android:textColor="@color/colorAccent"
         android:textSize="60sp"
         android:textStyle="bold"
         android:id="@+id/appNameTextView"/>
@@ -26,9 +28,9 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/locationEditText"
-
-        android:layout_above="@+id/findRestaurantsButton"
+        android:id="@+id/searchEditText"
+        android:background="@color/colorAccent"
+        android:layout_above="@+id/findImagesButton"
         android:layout_marginBottom="10dp"
         android:padding="5dp"
         android:hint="Enter Zip Code"
@@ -37,9 +39,10 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Find Restaurants"
-        android:id="@+id/findRestaurantsButton"
+        android:text="Find Images"
+        android:id="@+id/findImagesButton"
         android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

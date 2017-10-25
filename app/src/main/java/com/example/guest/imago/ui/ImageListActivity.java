@@ -4,8 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
+import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
+import com.example.guest.imago.models.Image;
+import com.example.guest.imago.services.UnsplashService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,15 +35,14 @@ public class ImageListActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String location = intent.getStringExtra("location");
-
-        getRestaurants(location);
+        String query = intent.getStringExtra("query");
+        getImages(query);
     }
 
-    private void getRestaurants(String location) {
+    private void getImages(String query) {
         final UnsplashService unsplashService = new UnsplashService();
 
-        unsplashService.findImages(search, new Callback() {
+        unsplashService.findImages(query, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -49,6 +52,7 @@ public class ImageListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) {
                 mImages = unsplashService.processResults(response);
+                Log.d("response", response.toString());
 
                 ImageListActivity.this.runOnUiThread(new Runnable() {
 
