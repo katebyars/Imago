@@ -40,8 +40,9 @@ public class ImageListActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
-        Log.d("Shared Pref Location", mRecentAddress);
-    }
+        if (mRecentAddress != null) {
+            getImages(mRecentAddress);
+        }
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
         getImages(query);

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
+import com.example.guest.imago.adapters.ImageListAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.appNameTextView) TextView mAppNameTextView;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+    @Bind(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+    private ImageListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +42,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPreferences.edit();
 
+
     }
 
     @Override
     public void onClick(View v) {
         if(v == mFindImagesButton) {
             String query = mSearchEditText.getText().toString();
-            if (query != "") {
+            if (!(query).equals("")) {
                 addToSharedPreferences(query);
                 Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
             intent.putExtra("query", query);
             startActivity(intent);
             }
-            if(query == "") {
-                Toast.makeText(MainActivity.this, "Enter some data!", Toast.LENGTH_LONG).show();
+            if((query).equals("")) {
+                Toast.makeText(MainActivity.this, "Enter a location!", Toast.LENGTH_LONG).show();
             }
         }
     }
