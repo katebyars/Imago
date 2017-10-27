@@ -1,11 +1,14 @@
 package com.example.guest.imago.ui;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
 import com.example.guest.imago.models.Image;
@@ -22,6 +25,8 @@ import okhttp3.Response;
 
 public class ImageListActivity extends AppCompatActivity {
     public static final String TAG = ImageListActivity.class.getSimpleName();
+    private SharedPreferences mSharedPreferences;
+    private String mRecentAddress;
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private ImageListAdapter mAdapter;
@@ -33,7 +38,10 @@ public class ImageListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images);
         ButterKnife.bind(this);
-
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
+        Log.d("Shared Pref Location", mRecentAddress);
+    }
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
         getImages(query);
