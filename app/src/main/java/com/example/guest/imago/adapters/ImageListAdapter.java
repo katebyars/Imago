@@ -21,7 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ImageViewHolder> {
-        private static final int MAX_WIDTH = 200;
+    private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
 
     private ArrayList<Image> mImages = new ArrayList<>();
@@ -52,7 +52,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.imageImageView) ImageView mImageImageView;
-        @Bind(R.id.imageNameTextView) TextView mImageNameTextView;
+//        @Bind(R.id.imageNameTextView) TextView mImageNameTextView;
         private Context mContext;
 
         public ImageViewHolder(View itemView) {
@@ -70,7 +70,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
                     .centerCrop()
                     .into(mImageImageView);
 
-            mImageNameTextView.setText(image.getImageName());
+//            mImageNameTextView.setText(image.getImageName());
         }
 
         @Override
