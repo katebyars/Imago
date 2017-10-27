@@ -18,9 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ImageDetailActivity"></activity>
-        <activity android:name=".ui.ImageListActivity"/>
-        <activity android:name=".ui.ImagesActivity"/>
+        <activity android:name=".ui.ImageDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".ui.ImageListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".ui.ImagesActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

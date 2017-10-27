@@ -12,8 +12,8 @@ _Current Project Task List_
 
 | Task      | Status    |
 | ------------- | ------------- |
-| ListView is changed to GridView| in progress |
-| Heart button to favorite photos, saves to Firebase |in progress|
+| Change small sized images to large sized | in progress |
+| Heart button saves to Firebase |in progress|
 | Display Firebase favorites via RecyclerAdapater on a favorites pages |in progress|
 | Display recently searched items in a a section of MainActivity layout as "Recently Searched" list/fragment |in progress|
 | Create dialogs for login status |in progress|
