@@ -7,14 +7,14 @@
     tools:context="com.example.guest.imago.ui.MainActivity"
     android:background="#000000">
 
-    <android.support.v7.widget.RecyclerView
+    <FrameLayout
+        android:id="@+id/recyclerViewFragmentFrame"
+        android:background="@color/colorWhite"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="330dp"
-        android:id="@+id/recentSearchesRecyclerView"
-        android:background="@color/colorWhite"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"></FrameLayout>
 
-<ImageView
+    <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"/>
@@ -25,6 +25,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/recentSearches"
             android:text="Recent Searches"
             android:layout_width="379dp"
             android:layout_height="18dp"

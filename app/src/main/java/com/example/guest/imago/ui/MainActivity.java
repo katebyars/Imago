@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,19 +17,29 @@ import android.widget.Toast;
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
+import com.example.guest.imago.models.Image;
+import com.example.guest.imago.services.UnsplashService;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.findImagesButton) Button mFindImagesButton;
     @Bind(R.id.searchEditText) EditText mSearchEditText;
     @Bind(R.id.appNameTextView) TextView mAppNameTextView;
+    @Bind(R.id.recentSearches) TextView mRecentSearchesTextView;
+
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
-    @Bind(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    private String mRecentAddress;
     private ImageListAdapter mAdapter;
+    public ArrayList<Image> mImages = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +47,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Typeface blackTinBox = Typeface.createFromAsset(getAssets(), "fonts/BlackTinBox.ttf");
+        Typeface blackTinBox = Typeface.createFromAsset(getAssets(), "fonts/Walkwayrounded.ttf");
         mAppNameTextView.setTypeface(blackTinBox);
 
         mFindImagesButton.setOnClickListener(this);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPreferences.edit();
 
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
 
     }
 
@@ -61,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void addToSharedPreferences(String location) {
-        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
+    private void addToSharedPreferences(String query) {
+        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, query).apply();
     }
 
 }

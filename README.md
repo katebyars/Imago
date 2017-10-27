@@ -8,6 +8,17 @@
 
 _Today, photographers abound. That special 'instagrammable' style, however, is not so plentiful, epecially as you peruse the studio listings in your town. If you want a portrait that is different than the norm, or simply want to get those social media worthy shots, use this app! It uses the Unsplash API to find photographers that live in or are shooting in your town.This is an app created for the Introduction to Programming course at Epicodus, Portland. This app is currently under construction and does not represent the MVP._
 
+_Current Project Task List_
+
+| Task      | Status    |
+| ------------- | ------------- |
+| ListView is changed to GridView| in progress |
+| Heart button to favorite photos, saves to Firebase |in progress|
+| Display Firebase favorites via RecyclerAdapater on a favorites pages |in progress|
+| Display recently searched items in a a section of MainActivity layout as "Recently Searched" list/fragment |in progress|
+| Create dialogs for login status |in progress|
+| Update UI to flat design | in progress |
+
 _The home page includes a search box and submit button, along with a bottom nav bar._
 ![Description](https://github.com/katebyars/Imago/blob/master/app/src/main/res/drawable/a1.png)
 _Search results appear in a separate activity with description and image thumb nail. I will add logic later to handle 'null' cases._
