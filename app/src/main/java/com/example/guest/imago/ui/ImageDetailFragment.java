@@ -24,7 +24,6 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     private static final int MAX_HEIGHT = 300;
 
     @Bind(R.id.imageImageView) ImageView mImageLabel;
-    @Bind(R.id.imageNameTextView) TextView mNameLabel;
     @Bind(R.id.imagePhotographerUserNameTextView) TextView mProfileNameLabel;
     @Bind(R.id.imagePhotographerwebsiteTextView) TextView mWebsiteLabel;
     @Bind(R.id.saveImageButton) Button mSaveImageButton;
@@ -56,13 +55,11 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                 .centerCrop()
                 .into(mImageLabel);
 
-        mNameLabel.setText(mImage.getImageName());
         mProfileNameLabel.setText(mImage.getImagePhotographerUserName());
         mWebsiteLabel.setText(mImage.getImageWebsiteLabel());
 
         mWebsiteLabel.setOnClickListener(this);
         mProfileNameLabel.setOnClickListener(this);
-        mNameLabel.setOnClickListener(this);
 
         return view;
     }

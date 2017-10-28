@@ -7,23 +7,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.ui.ImageDetailActivity;
 import com.example.guest.imago.ui.ImageDetailFragment;
 import com.example.guest.imago.ui.ImageListActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.R.attr.button;
+import static java.security.AccessController.getContext;
+
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ImageViewHolder> {
     private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
-
     private ArrayList<Image> mImages = new ArrayList<>();
     private Context mContext;
 
@@ -51,8 +59,12 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.imageImageView) ImageView mImageImageView;
-//        @Bind(R.id.imageNameTextView) TextView mImageNameTextView;
+        @Bind(R.id.imageImageView)
+        ImageView mImageImageView;
+
+        @Bind(R.id.savedButton)
+        Button mSavedButton;
+
         private Context mContext;
 
         public ImageViewHolder(View itemView) {
@@ -69,20 +81,16 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
                     .resize(MAX_WIDTH, MAX_HEIGHT)
                     .centerCrop()
                     .into(mImageImageView);
-
-//            mImageNameTextView.setText(image.getImageName());
         }
 
         @Override
         public void onClick(View v) {
-            int itemPosition = getLayoutPosition();
-            Intent intent = new Intent(mContext, ImageDetailActivity.class);
-            intent.putExtra("position", itemPosition + "");
-            intent.putExtra("images", Parcels.wrap(mImages));
-            mContext.startActivity(intent);
-            Log.d("onClickwords","hello");
-
-
+                int itemPosition = getLayoutPosition();
+                Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                intent.putExtra("position", itemPosition + "");
+                intent.putExtra("images", Parcels.wrap(mImages));
+                mContext.startActivity(intent);
+            }
         }
     }
-}
+

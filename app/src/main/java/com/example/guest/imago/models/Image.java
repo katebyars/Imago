@@ -15,6 +15,7 @@ public class Image {
 
 
     public Image () {}
+
     public Image(String imageUrl, String imageName, String imagePhotographerUserName, String imageWebsiteLabel, String location) {
         this.imageUrl = imageUrl;
         this.imageName = imageName;

@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.services.UnsplashService;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class ImageListActivity extends AppCompatActivity {
     public static final String TAG = ImageListActivity.class.getSimpleName();
     private SharedPreferences mSharedPreferences;
     private String mRecentAddress;
+//    @Bind(R.id.savedButton) Button mSavedButton;
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private ImageListAdapter mAdapter;
@@ -38,14 +42,17 @@ public class ImageListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images);
         ButterKnife.bind(this);
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
+
         if (mRecentAddress != null) {
             getImages(mRecentAddress);
         }
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
         getImages(query);
+
     }
 
     private void getImages(String query) {
@@ -61,7 +68,6 @@ public class ImageListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) {
                 mImages = unsplashService.processResults(response);
-                Log.d("response", response.toString());
 
                 ImageListActivity.this.runOnUiThread(new Runnable() {
 

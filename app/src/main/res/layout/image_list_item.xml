@@ -6,9 +6,7 @@
 
 <RelativeLayout
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
->
-
+    android:layout_height="fill_parent">
     <ImageView
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
@@ -20,7 +18,7 @@
     <Button
         android:layout_marginTop="150dp"
         android:layout_marginLeft="10dp"
-        android:id="@+id/favoriteButton"
+        android:id="@+id/saveImageButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@mipmap/ic_favorite_black_24dp"

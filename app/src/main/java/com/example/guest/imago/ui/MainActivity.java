@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             }
             if((query).equals("")) {
-                Toast.makeText(MainActivity.this, "Enter a location!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Enter a location!", Toast.LENGTH_SHORT).show();
             }
         }
     }
