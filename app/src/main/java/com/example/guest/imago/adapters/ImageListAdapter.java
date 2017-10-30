@@ -28,8 +28,8 @@ import static android.R.attr.button;
 import static java.security.AccessController.getContext;
 
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ImageViewHolder> {
-    private static final int MAX_WIDTH = 200;
-    private static final int MAX_HEIGHT = 200;
+    private static final int MAX_WIDTH = 1000;
+    private static final int MAX_HEIGHT = 1000;
     private ArrayList<Image> mImages = new ArrayList<>();
     private Context mContext;
 

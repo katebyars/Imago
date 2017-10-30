@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAppNameTextView.setTypeface(blackTinBox);
 
         mFindImagesButton.setOnClickListener(this);
+        mSavedImagesButton.setOnClickListener(this);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPreferences.edit();
 

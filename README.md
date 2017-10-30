@@ -13,7 +13,6 @@ _Current Project Task List_
 | Task| Status|
 | ----------| ------------- |
 | Change small sized images to large sized | in progress |
-| Implement save to Firebase with the heart in RecyclerView | in progress |
 | Heart button saves to Firebase |in progress|
 | Display Firebase favorites via RecyclerAdapater on a favorites pages |in progress|
 | Display recently searched items in a a section of MainActivity layout as "Recently Searched" list/fragment |in progress|
@@ -22,6 +21,7 @@ _Current Project Task List_
 | Update API call with branching logic to filter out null values | in progress |
 | Update opening screen with buttons to search for table tops, portraits, lifestyle and custom | in progress |
 | Have 4 separate API calls for each of the buttons | in progress |
+| Add a search widget to replace the search images thing | cooler |
 
 _The home page includes a search box and submit button, along with a bottom nav bar._
 ![Description](https://github.com/katebyars/Imago/blob/master/app/src/main/res/drawable/a1.png)

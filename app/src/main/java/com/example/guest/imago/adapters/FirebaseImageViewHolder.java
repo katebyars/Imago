@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import static com.example.guest.imago.R.id.imageImageView;
 
 public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
-    private static final int MAX_WIDTH = 200;
-    private static final int MAX_HEIGHT = 200;
+    private static final int MAX_WIDTH = 1000;
+    private static final int MAX_HEIGHT = 1000;
 
     View mView;
     Context mContext;
@@ -48,9 +48,6 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
                 .resize(MAX_WIDTH, MAX_HEIGHT)
                 .centerCrop()
                 .into(imageImageView);
-
-        userNameTextView.setText(image.getImagePhotographerUserName());
-        websiteTextView.setText(image.getImageWebsiteLabel());
     }
 
     @Override

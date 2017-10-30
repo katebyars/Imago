@@ -25,8 +25,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ImageDetailFragment extends Fragment implements View.OnClickListener {
-    private static final int MAX_WIDTH = 400;
-    private static final int MAX_HEIGHT = 300;
+    private static final int MAX_WIDTH = 1000;
+    private static final int MAX_HEIGHT = 1000;
 
     @Bind(R.id.imageImageView) ImageView mImageLabel;
     @Bind(R.id.imagePhotographerUserNameTextView) TextView mProfileNameLabel;
