@@ -20,6 +20,8 @@ _Current Project Task List_
 | Create dialogs for login status |in progress|
 | Update UI to flat design | in progress |
 | Update API call with branching logic to filter out null values | in progress |
+| Update opening screen with buttons to search for table tops, portraits, lifestyle and custom | in progress |
+| Have 4 separate API calls for each of the buttons | in progress |
 
 _The home page includes a search box and submit button, along with a bottom nav bar._
 ![Description](https://github.com/katebyars/Imago/blob/master/app/src/main/res/drawable/a1.png)

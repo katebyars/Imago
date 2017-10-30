@@ -1,5 +1,4 @@
 package com.example.guest.imago.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
@@ -59,11 +57,8 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.imageImageView)
-        ImageView mImageImageView;
-
-        @Bind(R.id.savedButton)
-        Button mSavedButton;
+        @Bind(R.id.imageImageView) ImageView mImageImageView;
+        @Bind(R.id.savedButton) Button mSavedButton;
 
         private Context mContext;
 

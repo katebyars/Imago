@@ -30,7 +30,7 @@ public class ImageListActivity extends AppCompatActivity {
     public static final String TAG = ImageListActivity.class.getSimpleName();
     private SharedPreferences mSharedPreferences;
     private String mRecentAddress;
-//    @Bind(R.id.savedButton) Button mSavedButton;
+    @Bind(R.id.saveImageButton) Button ButtonmSaveImageButton;
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private ImageListAdapter mAdapter;

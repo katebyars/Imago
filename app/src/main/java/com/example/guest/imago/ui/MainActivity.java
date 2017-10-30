@@ -63,20 +63,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if(v == mFindImagesButton) {
             String query = mSearchEditText.getText().toString();
-            if (!(query).equals("")) {
-                addToSharedPreferences(query);
-                Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
+            addToSharedPreferences(query);
+            Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
             intent.putExtra("query", query);
             startActivity(intent);
-            }
-            if((query).equals("")) {
-                Toast.makeText(MainActivity.this, "Enter a location!", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
     private void addToSharedPreferences(String query) {
         mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, query).apply();
     }
+
+//    @Override
+//    public void onClick(View v) {
+//        if(v == mFindImagesButton) {
+//            String query = mSearchEditText.getText().toString();
+//            if (!(query).equals("")) {
+//                addToSharedPreferences(query);
+//                Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
+//            intent.putExtra("query", query);
+//            startActivity(intent);
+//            }
+//            if((query).equals("")) {
+//                Toast.makeText(MainActivity.this, "Enter a location!", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
+//    private void addToSharedPreferences(String query) {
+//        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, query).apply();
+//    }
 
 }
