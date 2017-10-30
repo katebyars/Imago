@@ -31,6 +31,7 @@
             android:layout_height="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="180dp"
+            android:textColor="@color/colorDivider"
             android:background="@color/colorWhite"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
@@ -50,9 +51,11 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_constraintLeft_creator="1"
             tools:layout_constraintRight_creator="1"
-            tools:layout_constraintTop_creator="1" />
+            tools:layout_constraintTop_creator="1"
+            android:textColor="@color/colorDivider"/>
 
         <EditText
+            android:textColor="@color/colorDivider"
             android:id="@+id/searchEditText"
             android:layout_width="232dp"
             android:layout_height="34dp"
@@ -62,6 +65,7 @@
             android:layout_marginTop="12dp"
             android:background="@color/colorWhite"
             android:hint="search photographers"
+            android:textColorHint="@color/colorDivider"
             android:padding="5dp"
             android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -87,7 +91,7 @@
         android:layout_height="wrap_content"
         android:text="My Saved Images"
         android:id="@+id/savedImagesButton"
-        android:background="@color/colorAccent"
+        android:background="@color/colorDivider"
         android:textColor="@color/colorWhite"
         android:visibility="visible"
         android:layout_alignParentBottom="true"
