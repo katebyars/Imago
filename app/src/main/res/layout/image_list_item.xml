@@ -14,15 +14,6 @@
         android:id="@+id/imageImageView"
         android:src="@drawable/waffles"
         android:scaleType="centerCrop"/>
-
-    <Button
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/saveImageButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@mipmap/ic_favorite_black_24dp"
-        android:backgroundTint="@color/colorAccent"/>
 </RelativeLayout>
 
 

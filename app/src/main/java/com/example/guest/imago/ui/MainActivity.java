@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.searchEditText) EditText mSearchEditText;
     @Bind(R.id.appNameTextView) TextView mAppNameTextView;
     @Bind(R.id.recentSearches) TextView mRecentSearchesTextView;
+    @Bind(R.id.savedImagesButton) Button mSavedImagesButton;
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
@@ -66,6 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             addToSharedPreferences(query);
             Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
             intent.putExtra("query", query);
+            startActivity(intent);
+        }
+
+        if (v == mSavedImagesButton) {
+            Intent intent = new Intent(MainActivity.this, SavedImageActivity.class);
             startActivity(intent);
         }
     }

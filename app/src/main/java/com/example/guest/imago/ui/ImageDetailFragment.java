@@ -3,15 +3,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -60,28 +65,26 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
         mWebsiteLabel.setOnClickListener(this);
         mProfileNameLabel.setOnClickListener(this);
+        mSaveImageButton.setOnClickListener(this);
 
         return view;
     }
 
     @Override
     public void onClick(View v) {
+        if (v == mSaveImageButton) {
+            Log.d("hello", "in favorite");
+
+            DatabaseReference imageRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE);
+            imageRef.push().setValue(mImage);
+            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+        }
         if (v == mWebsiteLabel) {
             Intent webIntent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse(mImage.getImageWebsiteLabel()));
             startActivity(webIntent);
         }
-//        if (v == mProfileNameLabel) {
-//            Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
-//                    Uri.parse("tel:" + mRestaurant.getPhone()));
-//            startActivity(phoneIntent);
-//        }
-//        if (v == mNameLabel) {
-//            Intent mapIntent = new Intent(Intent.ACTION_VIEW,
-//                    Uri.parse("geo:" + mRestaurant.getLatitude()
-//                            + "," + mRestaurant.getLongitude()
-//                            + "?q=(" + mRestaurant.getName() + ")"));
-//            startActivity(mapIntent);
-//        }
     }
 }

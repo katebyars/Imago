@@ -38,17 +38,10 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
         itemView.setOnClickListener(this);
     }
 
-    public void bindRestaurant(Image image) {
-//        ImageView restaurantImageView = (ImageView) mView.findViewById(R.id.restaurantImageView);
-//        TextView nameTextView = (TextView) mView.findViewById(R.id.restaurantNameTextView);
-//        TextView categoryTextView = (TextView) mView.findViewById(R.id.categoryTextView);
-//        TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
-//
-//        this.imageUrl = imageUrl;
-//        this.imageName = imageName;
-//        this.imagePhotographerUserName = imagePhotographerUserName;
-//        this.imageWebsiteLabel = imageWebsiteLabel;
-//        this.location = location;
+    public void bindImage(Image image) {
+        ImageView imageImageView = (ImageView) mView.findViewById(R.id.imageImageView);
+        TextView websiteTextView = (TextView) mView.findViewById(R.id.imagePhotographerwebsiteTextView);
+        TextView userNameTextView = (TextView) mView.findViewById(R.id.imagePhotographerUserNameTextView);
 
         Picasso.with(mContext)
                 .load(image.getImageUrl())
@@ -56,28 +49,27 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
                 .centerCrop()
                 .into(imageImageView);
 
-        nameTextView.setText(image.getName());
-        categoryTextView.setText(restaurant.getCategories().get(0));
-        ratingTextView.setText("Rating: " + restaurant.getRating() + "/5");
+        userNameTextView.setText(image.getImagePhotographerUserName());
+        websiteTextView.setText(image.getImageWebsiteLabel());
     }
 
     @Override
     public void onClick(View view) {
-        final ArrayList<Image> restaurants = new ArrayList<>();
+        final ArrayList<Image> images = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    restaurants.add(snapshot.getValue(Image.class));
+                    images.add(snapshot.getValue(Image.class));
                 }
 
                 int itemPosition = getLayoutPosition();
 
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
                 intent.putExtra("position", itemPosition + "");
-                intent.putExtra("restaurants", Parcels.wrap(restaurants));
+                intent.putExtra("images", Parcels.wrap(images));
 
                 mContext.startActivity(intent);
             }
@@ -89,5 +81,3 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
     }
 }
 
-
-}
