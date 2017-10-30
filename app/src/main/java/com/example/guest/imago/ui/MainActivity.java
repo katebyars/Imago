@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if(v == mFindImagesButton) {
             String query = mSearchEditText.getText().toString();
-            addToSharedPreferences(query);
             Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
             intent.putExtra("query", query);
             startActivity(intent);
