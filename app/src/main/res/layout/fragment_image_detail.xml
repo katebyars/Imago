@@ -10,7 +10,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/imageImageView"
             android:src="@drawable/waffles"
             android:scaleType="centerCrop" />
@@ -29,7 +29,7 @@
              android:layout_marginTop="10dp"
              android:layout_marginLeft="10dp"
              android:layout_below="@id/imagePhotographerUserNameTextView"
-             android:id="@+id/savedButton"
+             android:id="@+id/saveImageButton"
              android:layout_width="30dp"
              android:layout_height="30dp"
              android:background="@mipmap/ic_favorite_black_24dp"

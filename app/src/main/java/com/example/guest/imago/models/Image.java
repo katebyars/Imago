@@ -7,11 +7,11 @@ import java.util.ArrayList;
 @Parcel
 public class Image {
 
-    private String imageUrl;
-    private String imageName;
-    private String imagePhotographerUserName;
-    private String imageWebsiteLabel;
-    private String location;
+     String imageUrl;
+     String imageName;
+     String imagePhotographerUserName;
+     String imageWebsiteLabel;
+     String location;
 
 
     public Image () {}
