@@ -8,6 +8,9 @@ import android.graphics.Typeface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +22,7 @@ import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.services.UnsplashService;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,6 +82,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addToSharedPreferences(String query) {
         mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, query).apply();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            logout();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
 //    @Override
