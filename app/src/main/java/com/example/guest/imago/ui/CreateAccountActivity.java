@@ -77,7 +77,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
 
-
     @Override
     public void onStop() {
         super.onStop();
@@ -108,6 +107,25 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         final String email = mEmailEditText.getText().toString().trim();
         String password = mPasswordEditText.getText().toString().trim();
         String confirmPassword = mConfirmPasswordEditText.getText().toString().trim();
+
+        if (name.equals("")) {
+            mNameEditText.setError("Please enter your name");
+            return;
+        }
+        if (email.equals("")) {
+            mEmailEditText.setError("Please enter your email");
+            return;
+        }
+
+        if (password.equals("")) {
+            mPasswordEditText.setError("Password cannot be blank");
+            return;
+        }
+
+        if (confirmPassword.equals("")) {
+            mConfirmPasswordEditText.setError("Please confirm your password.");
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
