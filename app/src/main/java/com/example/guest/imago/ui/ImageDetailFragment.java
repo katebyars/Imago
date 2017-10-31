@@ -23,6 +23,8 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -34,13 +36,15 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     @Bind(R.id.imagePhotographerUserNameTextView) TextView mProfileNameLabel;
     @Bind(R.id.imagePhotographerwebsiteTextView) TextView mWebsiteLabel;
     @Bind(R.id.saveImageButton) Button mSaveImageButton;
-
+    private ArrayList<Image> mImages;
+    private int mPosition;
     private Image mImage;
 
-    public static ImageDetailFragment newInstance(Image image) {
+    public static ImageDetailFragment newInstance(ArrayList<Image> images, Integer position) {
         ImageDetailFragment imageDetailFragment = new ImageDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable("image", Parcels.wrap(image));
+        args.putParcelable(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(images));
+        args.putInt(Constants.EXTRA_KEY_POSITION, position);
         imageDetailFragment.setArguments(args);
         return imageDetailFragment;
     }
@@ -48,7 +52,9 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mImage = Parcels.unwrap(getArguments().getParcelable("image"));
+        mImage = Parcels.unwrap(getArguments().getParcelable(Constants.EXTRA_KEY_IMAGES));
+        mPosition = getArguments().getInt(Constants.EXTRA_KEY_POSITION);
+        mImage = mImages.get(mPosition);
     }
 
     @Override
