@@ -7,6 +7,7 @@ import java.util.ArrayList;
 @Parcel
 public class Image {
 
+     String index;
      String imageUrl;
      String imageName;
      String imagePhotographerUserName;
@@ -22,6 +23,15 @@ public class Image {
         this.imagePhotographerUserName = imagePhotographerUserName;
         this.imageWebsiteLabel = imageWebsiteLabel;
         this.location = location;
+        this.index = "not_specfied";
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
     }
 
     public String getImageUrl() {

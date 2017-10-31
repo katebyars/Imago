@@ -27,8 +27,9 @@ public class ImageDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
 
+
         mImages = Parcels.unwrap(getIntent().getParcelableExtra("images"));
-        int startingPosition = Integer.parseInt(getIntent().getStringExtra("position"));
+        int startingPosition = getIntent().getIntExtra("position", 0);
 
         adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), mImages);
         mViewPager.setAdapter(adapterViewPager);

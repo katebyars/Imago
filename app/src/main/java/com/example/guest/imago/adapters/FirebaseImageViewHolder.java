@@ -24,9 +24,10 @@ import java.util.ArrayList;
 
 import static com.example.guest.imago.R.id.imageImageView;
 
-public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+public class FirebaseImageViewHolder extends RecyclerView.ViewHolder {
     private static final int MAX_WIDTH = 1000;
     private static final int MAX_HEIGHT = 1000;
+    public ImageView mImageImageView;
 
     View mView;
     Context mContext;
@@ -35,46 +36,16 @@ public class FirebaseImageViewHolder extends RecyclerView.ViewHolder implements 
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
     }
 
     public void bindImage(Image image) {
-        ImageView imageImageView = (ImageView) mView.findViewById(R.id.imageImageView);
-        TextView websiteTextView = (TextView) mView.findViewById(R.id.imagePhotographerwebsiteTextView);
-        TextView userNameTextView = (TextView) mView.findViewById(R.id.imagePhotographerUserNameTextView);
+        mImageImageView = (ImageView) mView.findViewById(R.id.imageImageView);
 
         Picasso.with(mContext)
                 .load(image.getImageUrl())
                 .resize(MAX_WIDTH, MAX_HEIGHT)
                 .centerCrop()
-                .into(imageImageView);
-    }
-
-    @Override
-    public void onClick(View view) {
-        final ArrayList<Image> images = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    images.add(snapshot.getValue(Image.class));
-                }
-
-                int itemPosition = getLayoutPosition();
-
-                Intent intent = new Intent(mContext, ImageDetailActivity.class);
-                intent.putExtra("position", itemPosition + "");
-                intent.putExtra("images", Parcels.wrap(images));
-
-                mContext.startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+                .into(mImageImageView);
     }
 }
 
