@@ -22,11 +22,10 @@ import com.google.firebase.database.Query;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SavedImageActivity extends AppCompatActivity implements OnStartDragListener {
+public class SavedImageActivity extends AppCompatActivity {
 
     private DatabaseReference mImageReference;
-    private FirebaseImageListAdapter mFirebaseAdapter;
-    private ItemTouchHelper mItemTouchHelper;
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -38,39 +37,37 @@ public class SavedImageActivity extends AppCompatActivity implements OnStartDrag
         setContentView(R.layout.activity_images);
         ButterKnife.bind(this);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        mImageReference = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE)
+                .child(uid);
+
         setUpFirebaseAdapter();
     }
 
     private void setUpFirebaseAdapter() {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Image, FirebaseImageViewHolder>
+                (Image.class, R.layout.image_list_item, FirebaseImageViewHolder.class,
+                        mImageReference) {
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-
-        Query query = FirebaseDatabase
-                .getInstance()
-                .getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE)
-//                .child(uid)
-                .orderByChild(Constants.FIREBASE_QUERY_INDEX);
-
-        mFirebaseAdapter = new FirebaseImageListAdapter(Image.class, R.layout.image_list_item_drag, FirebaseImageViewHolder.class, query, this, this);
+            @Override
+            protected void populateViewHolder(FirebaseImageViewHolder viewHolder,
+                                              Image model, int position) {
+                viewHolder.bindImage(model);
+            }
+        };
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
-
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mFirebaseAdapter.cleanup();
-    }
-
-    @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-        mItemTouchHelper.startDrag(viewHolder);
     }
 }

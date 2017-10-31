@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -73,12 +75,19 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v == mSaveImageButton) {
-            Log.d("hello", "in favorite");
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = user.getUid();
 
             DatabaseReference imageRef = FirebaseDatabase
                     .getInstance()
-                    .getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE);
-            imageRef.push().setValue(mImage);
+                    .getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE)
+                    .child(uid);
+
+            DatabaseReference pushRef = imageRef.push();
+            String pushId = pushRef.getKey();
+            mImage.setPushId(pushId);
+            pushRef.setValue(mImage);
+
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
         if (v == mWebsiteLabel) {

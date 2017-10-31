@@ -13,7 +13,7 @@ public class Image {
      String imagePhotographerUserName;
      String imageWebsiteLabel;
      String location;
-
+     private String pushId;
 
     public Image () {}
 
@@ -24,6 +24,14 @@ public class Image {
         this.imageWebsiteLabel = imageWebsiteLabel;
         this.location = location;
         this.index = "not_specfied";
+    }
+
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
     }
 
     public String getIndex() {
