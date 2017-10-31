@@ -6,10 +6,10 @@
     tools:context=".ui.ImageListActivity">
 
     <fragment
-        android:id="@+id/fragmentImageList"
-        android:name="com.example.guest.imago.ui.ImageListFragment"
+        android:id="@+id/fragmentRestaurantList"
+        android:name="com.example.guest.imago.ui.SavedImageListFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout="@layout/fragment_image_list" />
+        tools:layout="@layout/fragment_restaurant_list" />
 
 </RelativeLayout>
