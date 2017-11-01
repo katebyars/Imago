@@ -83,6 +83,7 @@ public class UnsplashService {
         Request request= new Request.Builder()
                 .url(url)
                 .build();
+        Log.d("url", url);
 
         Call call = client.newCall(request);
         call.enqueue(callback);
