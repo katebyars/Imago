@@ -78,10 +78,13 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
     @Override
     protected void populateViewHolder(final FirebaseImageViewHolder viewHolder, Image model, int position) {
         viewHolder.bindImage(model);
+
         mOrientation = viewHolder.itemView.getResources().getConfiguration().orientation;
+
         if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             createDetailFragment(0);
         }
+
         viewHolder.mImageImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
