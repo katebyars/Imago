@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:showDividers="middle"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.ImageListActivity">>
+    android:layout_height="match_parent" >
+
     <fragment
-        android:id="@+id/fragmentImageList"
-        android:name="com.example.guest.imago.ui.ImageListFragment"
+        android:id="@+id/fragmentImagesList"
+        android:name="com.example.guest.imago.ui.SavedImageListFragment"
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="3"
@@ -24,4 +27,4 @@
 
     </FrameLayout>
 
-</RelativeLayout>
+</LinearLayout>

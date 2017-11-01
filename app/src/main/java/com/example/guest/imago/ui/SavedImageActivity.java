@@ -22,52 +22,13 @@ import com.google.firebase.database.Query;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SavedImageActivity extends AppCompatActivity {
-
-    private DatabaseReference mImageReference;
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
-
-    @Bind(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+public class SavedImageActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_saved_image_list);
 
-        setContentView(R.layout.activity_images);
-        ButterKnife.bind(this);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-
-        mImageReference = FirebaseDatabase
-                .getInstance()
-                .getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE)
-                .child(uid);
-
-        setUpFirebaseAdapter();
     }
 
-    private void setUpFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Image, FirebaseImageViewHolder>
-                (Image.class, R.layout.image_list_item, FirebaseImageViewHolder.class,
-                        mImageReference) {
-
-            @Override
-            protected void populateViewHolder(FirebaseImageViewHolder viewHolder,
-                                              Image model, int position) {
-                viewHolder.bindImage(model);
-            }
-        };
-
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mFirebaseAdapter);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mFirebaseAdapter.cleanup();
-    }
 }

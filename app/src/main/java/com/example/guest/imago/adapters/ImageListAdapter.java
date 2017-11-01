@@ -1,6 +1,9 @@
 package com.example.guest.imago.adapters;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +35,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
     private static final int MAX_HEIGHT = 1000;
     private ArrayList<Image> mImages = new ArrayList<>();
     private Context mContext;
+    private int mOrientation;
 
     public ImageListAdapter(Context context, ArrayList<Image> images) {
         mContext = context;
@@ -57,16 +61,23 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.imageImageView) ImageView mImageImageView;
-
+        @Bind(R.id.imageImageView)
+        ImageView mImageImageView;
+        private int mOrientation;
         private Context mContext;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mOrientation = itemView.getResources().getConfiguration().orientation;
 
             mContext = itemView.getContext();
             itemView.setOnClickListener(this);
+
+            mOrientation = itemView.getResources().getConfiguration().orientation;
+            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                createDetailFragment(0);
+            }
         }
 
         public void bindImage(Image image) {
@@ -79,12 +90,22 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
 
         @Override
         public void onClick(View v) {
-                int itemPosition = getLayoutPosition();
+            int itemPosition = getLayoutPosition();
+            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                createDetailFragment(itemPosition);
+            } else {
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
-                intent.putExtra("position", itemPosition + "");
-                intent.putExtra("images", Parcels.wrap(mImages));
+                intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
+                intent.putExtra(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(mImages));
                 mContext.startActivity(intent);
             }
         }
-    }
 
+        private void createDetailFragment(int position) {
+            ImageDetailFragment detailFragment = ImageDetailFragment.newInstance(mImages, position);
+            FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.imageDetailContainer, detailFragment);
+            ft.commit();
+        }
+    }
+}

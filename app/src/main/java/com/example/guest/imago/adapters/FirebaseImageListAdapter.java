@@ -2,13 +2,19 @@ package com.example.guest.imago.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.guest.imago.Constants;
+import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.ui.ImageDetailActivity;
+import com.example.guest.imago.ui.ImageDetailFragment;
 import com.example.guest.imago.util.ItemTouchHelperAdapter;
 import com.example.guest.imago.util.OnStartDragListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -24,16 +30,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, FirebaseImageViewHolder> implements ItemTouchHelperAdapter {
-
     private ChildEventListener mChildEventListener;
     private ArrayList<Image> mImages = new ArrayList<>();
     private DatabaseReference mRef;
     private OnStartDragListener mOnStartDragListener;
     private Context mContext;
+    private int mOrientation;
 
     public FirebaseImageListAdapter(Class<Image> modelClass, int modelLayout,
-                                    Class<FirebaseImageViewHolder> viewHolderClass,
-                                    Query ref, OnStartDragListener onStartDragListener, Context context) {
+                                         Class<FirebaseImageViewHolder> viewHolderClass,
+                                         Query ref, OnStartDragListener onStartDragListener, Context context) {
+
         super(modelClass, modelLayout, viewHolderClass, ref);
         mRef = ref.getRef();
         mOnStartDragListener = onStartDragListener;
@@ -41,38 +48,43 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
 
         mChildEventListener = mRef.addChildEventListener(new ChildEventListener() {
 
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            mImages.add(dataSnapshot.getValue(Image.class));
-        }
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                mImages.add(dataSnapshot.getValue(Image.class));
+            }
 
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-        }
+            }
 
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-        }
+            }
 
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-        }
+            }
 
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-        }
-    });
-   }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     protected void populateViewHolder(final FirebaseImageViewHolder viewHolder, Image model, int position) {
         viewHolder.bindImage(model);
+        mOrientation = viewHolder.itemView.getResources().getConfiguration().orientation;
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            createDetailFragment(0);
+        }
         viewHolder.mImageImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch (View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                     mOnStartDragListener.onStartDrag(viewHolder);
                 }
@@ -84,12 +96,25 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ImageDetailActivity.class);
-                intent.putExtra("position", viewHolder.getAdapterPosition());
-                intent.putExtra("images", Parcels.wrap(mImages));
-                mContext.startActivity(intent);
+                int itemPosition = viewHolder.getAdapterPosition();
+                if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    createDetailFragment(itemPosition);
+                } else {
+                    Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                    intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
+                    intent.putExtra(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(mImages));
+                    mContext.startActivity(intent);
+                }
             }
         });
+
+    }
+
+    private void createDetailFragment(int position) {
+        ImageDetailFragment detailFragment = ImageDetailFragment.newInstance(mImages, position);
+        FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.imageDetailContainer, detailFragment);
+        ft.commit();
     }
 
     @Override
@@ -103,7 +128,6 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
     public void onItemDismiss(int position) {
         mImages.remove(position);
         getRef(position).removeValue();
-
     }
 
     private void setIndexInFirebase() {
@@ -121,4 +145,5 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
         setIndexInFirebase();
         mRef.removeEventListener(mChildEventListener);
     }
+
 }
