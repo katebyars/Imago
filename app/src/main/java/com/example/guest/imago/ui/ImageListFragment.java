@@ -1,6 +1,7 @@
 package com.example.guest.imago.ui;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +22,7 @@ import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.services.UnsplashService;
+import com.example.guest.imago.util.OnImageSelectedListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,10 +33,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ImageListFragment extends Fragment {
+
+    private OnImageSelectedListener mOnImageSelectedListener;
+
     public static final String TAG = ImageListActivity.class.getSimpleName();
     private SharedPreferences mSharedPreferences;
     private String mRecentAddress;
@@ -46,6 +48,16 @@ public class ImageListFragment extends Fragment {
 
     public ImageListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach (Context context) {
+        super.onAttach(context);
+        try  {
+            mOnImageSelectedListener = (OnImageSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + e.getMessage());
+        }
     }
 
     @Override
@@ -87,7 +99,7 @@ public class ImageListFragment extends Fragment {
 
                     @Override
                     public void run() {
-                        mAdapter = new ImageListAdapter(getActivity(), mImages);
+                        mAdapter = new ImageListAdapter(getActivity(), mImages, mOnImageSelectedListener);
                         mRecyclerView.setAdapter(mAdapter);
                         RecyclerView.LayoutManager layoutManager =
                                 new LinearLayoutManager(getActivity());

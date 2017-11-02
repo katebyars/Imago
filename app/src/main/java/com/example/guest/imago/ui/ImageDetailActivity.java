@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImagePagerAdapter;
 import com.example.guest.imago.models.Image;
@@ -28,11 +29,13 @@ public class ImageDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        mImages = Parcels.unwrap(getIntent().getParcelableExtra("images"));
-        int startingPosition = getIntent().getIntExtra("position", 0);
+        mImages = Parcels.unwrap(getIntent().getParcelableExtra(Constants.EXTRA_KEY_IMAGES));
+        int startingPosition = getIntent().getIntExtra(Constants.EXTRA_KEY_POSITION, 0);
 
         adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), mImages);
         mViewPager.setAdapter(adapterViewPager);
         mViewPager.setCurrentItem(startingPosition);
+
+
     }
 }

@@ -10,5 +10,5 @@ import java.util.ArrayList;
 
 public interface OnImageSelectedListener {
 
-    public void onImageSelectedListener(Integer position, ArrayList<Image> images);
+    public void onImageSelectedListener(Integer position, ArrayList<Image> images, String source);
 }

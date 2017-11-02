@@ -1,6 +1,7 @@
 package com.example.guest.imago.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,10 @@ import com.example.guest.imago.services.UnsplashService;
 import com.example.guest.imago.util.OnImageSelectedListener;
 import com.squareup.picasso.Picasso;
 
+import org.parceler.Parcels;
+
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -31,19 +35,48 @@ public class ImageListActivity extends AppCompatActivity implements OnImageSelec
 
     private Integer mPosition;
     ArrayList<Image> mImages;
+    String mSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images);
 
+        if(savedInstanceState != null) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+                mPosition = savedInstanceState.getInt(Constants.EXTRA_KEY_POSITION);
+                mImages = Parcels.unwrap(savedInstanceState.getParcelable(Constants.EXTRA_KEY_IMAGES));
+                mSource = savedInstanceState.getString(Constants.KEY_SOURCE);
+
+                if(mPosition != null && mImages != null) {
+                    Intent intent = new Intent(this, ImageDetailActivity.class);
+                    intent.putExtra(Constants.EXTRA_KEY_POSITION, mPosition);
+                    intent.putExtra(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(mImages));
+                    intent.putExtra(Constants.KEY_SOURCE, mSource);
+                    startActivity(intent);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mPosition != null && mImages != null) {
+            outState.putInt(Constants.EXTRA_KEY_POSITION, mPosition);
+            outState.putParcelable(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(mImages));
+            outState.putString(Constants.KEY_SOURCE, mSource);
+        }
 
     }
 
     @Override
-    public void onImageSelected(Integer position, ArrayList<Image> images) {
+    public void onImageSelectedListener(Integer position, ArrayList<Image> images, String source) {
         mPosition = position;
         mImages = images;
+        mSource = source;
     }
 
 }

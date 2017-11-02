@@ -19,6 +19,7 @@ import com.example.guest.imago.models.Image;
 import com.example.guest.imago.ui.ImageDetailActivity;
 import com.example.guest.imago.ui.ImageDetailFragment;
 import com.example.guest.imago.ui.ImageListActivity;
+import com.example.guest.imago.util.OnImageSelectedListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -28,24 +29,30 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static android.R.attr.button;
+import static android.support.constraint.R.id.parent;
 import static java.security.AccessController.getContext;
 
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.ImageViewHolder> {
     private static final int MAX_WIDTH = 1000;
     private static final int MAX_HEIGHT = 1000;
+
     private ArrayList<Image> mImages = new ArrayList<>();
     private Context mContext;
     private int mOrientation;
+    private OnImageSelectedListener mOnImageSelectedListener;
 
-    public ImageListAdapter(Context context, ArrayList<Image> images) {
+    @Bind(R.id.imageImageView) ImageView mImageImageView;
+
+    public ImageListAdapter(Context context, ArrayList<Image> images, OnImageSelectedListener imageSelectedListener) {
         mContext = context;
         mImages = images;
+        mOnImageSelectedListener = imageSelectedListener;
     }
 
     @Override
     public ImageListAdapter.ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_list_item, parent, false);
-        ImageViewHolder viewHolder = new ImageViewHolder(view);
+        ImageViewHolder viewHolder = new ImageViewHolder(view, mImages, mOnImageSelectedListener);;
         return viewHolder;
     }
 
@@ -59,19 +66,27 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
         return mImages.size();
     }
 
-
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.imageImageView)
-        ImageView mImageImageView;
-        private int mOrientation;
-        private Context mContext;
+        @Bind(R.id.imageImageView) ImageView mImageImageView;
 
-        public ImageViewHolder(View itemView) {
+        private Context mContext;
+        private int mOrientation;
+        private ArrayList<Image> mImages = new ArrayList<>();
+        private OnImageSelectedListener mImageSelectedListener;
+
+        public ImageViewHolder(View itemView, ArrayList<Image> images, OnImageSelectedListener imageSelectedListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mOrientation = itemView.getResources().getConfiguration().orientation;
 
             mContext = itemView.getContext();
+            mOrientation = itemView.getResources().getConfiguration().orientation;
+            mImages = images;
+            mImageSelectedListener = imageSelectedListener;
+
+            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+                createDetailFragment(0);
+            }
+
             itemView.setOnClickListener(this);
 
             mOrientation = itemView.getResources().getConfiguration().orientation;
@@ -81,6 +96,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
         }
 
         public void bindImage(Image image) {
+
             Picasso.with(mContext)
                     .load(image.getImageUrl())
                     .resize(MAX_WIDTH, MAX_HEIGHT)
@@ -91,6 +107,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
         @Override
         public void onClick(View v) {
             int itemPosition = getLayoutPosition();
+            mImageSelectedListener.onImageSelectedListener(itemPosition, mImages);
             if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
                 createDetailFragment(itemPosition);
             } else {
@@ -107,5 +124,6 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
             ft.replace(R.id.imageDetailContainer, detailFragment);
             ft.commit();
         }
+
     }
 }
