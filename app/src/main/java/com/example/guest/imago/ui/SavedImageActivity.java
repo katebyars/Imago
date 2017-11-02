@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
@@ -28,6 +29,8 @@ public class SavedImageActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_image_list);
+
+        Log.d("saved image activity", "saved image activity");
 
     }
 

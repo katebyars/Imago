@@ -20,6 +20,7 @@ public class ImageDetailActivity extends AppCompatActivity {
     @Bind(R.id.viewPager) ViewPager mViewPager;
     private ImagePagerAdapter adapterViewPager;
     ArrayList<Image> mImages = new ArrayList<>();
+    private String mSource;
 
 
     @Override
@@ -28,11 +29,12 @@ public class ImageDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
 
+        mSource = getIntent().getStringExtra(Constants.KEY_SOURCE);
 
         mImages = Parcels.unwrap(getIntent().getParcelableExtra(Constants.EXTRA_KEY_IMAGES));
         int startingPosition = getIntent().getIntExtra(Constants.EXTRA_KEY_POSITION, 0);
 
-        adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), mImages);
+        adapterViewPager = new ImagePagerAdapter(getSupportFragmentManager(), mImages, mSource);
         mViewPager.setAdapter(adapterViewPager);
         mViewPager.setCurrentItem(startingPosition);
 

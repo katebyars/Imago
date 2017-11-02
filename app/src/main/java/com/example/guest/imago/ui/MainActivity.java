@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("on create", "on create");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -68,15 +70,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v == mFindImagesButton) {
-            String query = mSearchEditText.getText().toString();
             Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
-            intent.putExtra("query", query);
             startActivity(intent);
         }
 
         if (v == mSavedImagesButton) {
             Intent intent = new Intent(MainActivity.this, SavedImageActivity.class);
             startActivity(intent);
+
+            Log.d("saved images", "saved images");
         }
     }
 

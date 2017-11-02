@@ -107,19 +107,21 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
         @Override
         public void onClick(View v) {
             int itemPosition = getLayoutPosition();
-            mImageSelectedListener.onImageSelectedListener(itemPosition, mImages);
+            mImageSelectedListener.onImageSelectedListener(itemPosition, mImages, Constants.SOURCE_FIND);
             if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
                 createDetailFragment(itemPosition);
             } else {
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
                 intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
                 intent.putExtra(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(mImages));
+                intent.putExtra(Constants.KEY_SOURCE, Constants.SOURCE_FIND);
+                mContext.startActivity(intent);
                 mContext.startActivity(intent);
             }
         }
 
         private void createDetailFragment(int position) {
-            ImageDetailFragment detailFragment = ImageDetailFragment.newInstance(mImages, position);
+            ImageDetailFragment detailFragment = ImageDetailFragment.newInstance(mImages, position, Constants.SOURCE_FIND);
             FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.imageDetailContainer, detailFragment);
             ft.commit();

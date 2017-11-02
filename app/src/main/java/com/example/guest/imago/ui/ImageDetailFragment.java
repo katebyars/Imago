@@ -39,22 +39,28 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     private ArrayList<Image> mImages;
     private int mPosition;
     private Image mImage;
+    private String mSource;
 
-    public static ImageDetailFragment newInstance(ArrayList<Image> images, Integer position) {
+    public static ImageDetailFragment newInstance(ArrayList<Image> images, Integer position, String source) {
+
         ImageDetailFragment imageDetailFragment = new ImageDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(images));
         args.putInt(Constants.EXTRA_KEY_POSITION, position);
+        args.putString(Constants.KEY_SOURCE, source);
         imageDetailFragment.setArguments(args);
         return imageDetailFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         mImage = Parcels.unwrap(getArguments().getParcelable(Constants.EXTRA_KEY_IMAGES));
         mPosition = getArguments().getInt(Constants.EXTRA_KEY_POSITION);
         mImage = mImages.get(mPosition);
+        mSource = getArguments().getString(Constants.KEY_SOURCE);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -62,6 +68,12 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_image_detail, container, false);
         ButterKnife.bind(this, view);
 
+        if (mSource.equals(Constants.SOURCE_SAVED)) {
+            mSaveImageButton.setVisibility(View.GONE);
+        }
+        else {
+            mSaveImageButton.setOnClickListener(this);
+        }
         Picasso.with(view.getContext())
                 .load(mImage.getImageUrl())
                 .resize(MAX_WIDTH, MAX_HEIGHT)
@@ -73,7 +85,6 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
         mWebsiteLabel.setOnClickListener(this);
         mProfileNameLabel.setOnClickListener(this);
-        mSaveImageButton.setOnClickListener(this);
 
         return view;
     }

@@ -106,6 +106,7 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
                     Intent intent = new Intent(mContext, ImageDetailActivity.class);
                     intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
                     intent.putExtra(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(mImages));
+                    intent.putExtra(Constants.KEY_SOURCE, Constants.SOURCE_SAVED);
                     mContext.startActivity(intent);
                 }
             }
@@ -114,7 +115,7 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
     }
 
     private void createDetailFragment(int position) {
-        ImageDetailFragment detailFragment = ImageDetailFragment.newInstance(mImages, position);
+        ImageDetailFragment detailFragment = ImageDetailFragment.newInstance(mImages, position, Constants.SOURCE_SAVED);
         FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.imageDetailContainer, detailFragment);
         ft.commit();
