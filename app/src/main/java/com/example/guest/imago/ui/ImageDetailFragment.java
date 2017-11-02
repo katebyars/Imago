@@ -1,9 +1,11 @@
 package com.example.guest.imago.ui;
+
+import com.example.guest.imago.R;
+import com.example.guest.imago.models.Image;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
@@ -23,28 +24,24 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ImageDetailFragment extends Fragment implements View.OnClickListener {
-    private static final int MAX_WIDTH = 1000;
-    private static final int MAX_HEIGHT = 1000;
+
+    private static final int MAX_WIDTH = 400;
+    private static final int MAX_HEIGHT = 300;
 
     @Bind(R.id.imageImageView) ImageView mImageLabel;
-    @Bind(R.id.imagePhotographerUserNameTextView) TextView mProfileNameLabel;
+    @Bind(R.id.savedImagesButton) Button mSaveImageButton;
     @Bind(R.id.imagePhotographerwebsiteTextView) TextView mWebsiteLabel;
-    @Bind(R.id.saveImageButton) Button mSaveImageButton;
-    private ArrayList<Image> mImages;
-    private int mPosition;
+
     private Image mImage;
 
-    public static ImageDetailFragment newInstance(ArrayList<Image> images, Integer position) {
+    public static ImageDetailFragment newInstance(Image image) {
         ImageDetailFragment imageDetailFragment = new ImageDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(images));
-        args.putInt(Constants.EXTRA_KEY_POSITION, position);
+        args.putParcelable("image", Parcels.wrap(image));
         imageDetailFragment.setArguments(args);
         return imageDetailFragment;
     }
@@ -52,9 +49,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mImage = Parcels.unwrap(getArguments().getParcelable(Constants.EXTRA_KEY_IMAGES));
-        mPosition = getArguments().getInt(Constants.EXTRA_KEY_POSITION);
-        mImage = mImages.get(mPosition);
+        mImage = Parcels.unwrap(getArguments().getParcelable("image"));
     }
 
     @Override
@@ -68,11 +63,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                 .centerCrop()
                 .into(mImageLabel);
 
-        mProfileNameLabel.setText(mImage.getImagePhotographerUserName());
-        mWebsiteLabel.setText(mImage.getImageWebsiteLabel());
-
         mWebsiteLabel.setOnClickListener(this);
-        mProfileNameLabel.setOnClickListener(this);
         mSaveImageButton.setOnClickListener(this);
 
         return view;
@@ -80,26 +71,30 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+
+        if (v == mWebsiteLabel) {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(mImage.getImageWebsiteLabel()));
+            startActivity(webIntent);
+        }
+
         if (v == mSaveImageButton) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             String uid = user.getUid();
 
-            DatabaseReference imageRef = FirebaseDatabase
+            DatabaseReference restaurantRef = FirebaseDatabase
                     .getInstance()
                     .getReference(Constants.FIREBASE_CHILD_SAVED_IMAGE)
                     .child(uid);
 
-            DatabaseReference pushRef = imageRef.push();
+            DatabaseReference pushRef = restaurantRef.push();
             String pushId = pushRef.getKey();
             mImage.setPushId(pushId);
             pushRef.setValue(mImage);
 
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
-        if (v == mWebsiteLabel) {
-            Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(mImage.getImageWebsiteLabel()));
-            startActivity(webIntent);
-        }
+
     }
+
 }

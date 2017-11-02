@@ -2,19 +2,12 @@ package com.example.guest.imago.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.example.guest.imago.Constants;
-import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.ui.ImageDetailActivity;
-import com.example.guest.imago.ui.ImageDetailFragment;
 import com.example.guest.imago.util.ItemTouchHelperAdapter;
 import com.example.guest.imago.util.OnStartDragListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -35,7 +28,6 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
     private DatabaseReference mRef;
     private OnStartDragListener mOnStartDragListener;
     private Context mContext;
-    private int mOrientation;
 
     public FirebaseImageListAdapter(Class<Image> modelClass, int modelLayout,
                                          Class<FirebaseImageViewHolder> viewHolderClass,
@@ -78,13 +70,6 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
     @Override
     protected void populateViewHolder(final FirebaseImageViewHolder viewHolder, Image model, int position) {
         viewHolder.bindImage(model);
-
-        mOrientation = viewHolder.itemView.getResources().getConfiguration().orientation;
-
-        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            createDetailFragment(0);
-        }
-
         viewHolder.mImageImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -99,25 +84,13 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
 
             @Override
             public void onClick(View v) {
-                int itemPosition = viewHolder.getAdapterPosition();
-                if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    createDetailFragment(itemPosition);
-                } else {
-                    Intent intent = new Intent(mContext, ImageDetailActivity.class);
-                    intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
-                    intent.putExtra(Constants.EXTRA_KEY_IMAGES, Parcels.wrap(mImages));
-                    mContext.startActivity(intent);
-                }
+                Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                intent.putExtra("position", viewHolder.getAdapterPosition());
+                intent.putExtra("images", Parcels.wrap(mImages));
+                mContext.startActivity(intent);
             }
         });
 
-    }
-
-    private void createDetailFragment(int position) {
-        ImageDetailFragment detailFragment = ImageDetailFragment.newInstance(mImages, position);
-        FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.imageDetailContainer, detailFragment);
-        ft.commit();
     }
 
     @Override

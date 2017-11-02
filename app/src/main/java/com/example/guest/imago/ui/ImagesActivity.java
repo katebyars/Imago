@@ -1,4 +1,5 @@
 package com.example.guest.imago.ui;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.example.guest.imago.services.UnsplashService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;
@@ -20,10 +22,10 @@ import okhttp3.Response;
 
 public class ImagesActivity extends AppCompatActivity {
     public static final String TAG = ImagesActivity.class.getSimpleName();
-    private ImageListAdapter mAdapter;
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    private ImageListAdapter mAdapter;
 
     public ArrayList<Image> images = new ArrayList<>();
 
@@ -34,14 +36,14 @@ public class ImagesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String search = intent.getStringExtra("search");
+        String query = intent.getStringExtra("query");
 
-        getImages(search);
+        getImages(query);
     }
 
-    private void getImages(String search) {
+    private void getImages(String location) {
         final UnsplashService unsplashService = new UnsplashService();
-        UnsplashService.findImages(search, new Callback() {
+        unsplashService.findImages(location, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -58,10 +60,8 @@ public class ImagesActivity extends AppCompatActivity {
                     public void run() {
                         mAdapter = new ImageListAdapter(getApplicationContext(), images);
                         mRecyclerView.setAdapter(mAdapter);
-
                         RecyclerView.LayoutManager layoutManager =
                                 new LinearLayoutManager(ImagesActivity.this);
-
                         mRecyclerView.setLayoutManager(layoutManager);
                         mRecyclerView.setHasFixedSize(true);
                     }
@@ -70,3 +70,5 @@ public class ImagesActivity extends AppCompatActivity {
         });
     }
 }
+
+

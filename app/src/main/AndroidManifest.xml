@@ -14,25 +14,30 @@
         <activity
             android:name=".ui.MainActivity"
             android:theme="@style/Theme.AppCompat">
-
         </activity>
+
         <activity
             android:name=".ui.ImageDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
             android:name=".ui.ImageListActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
             android:name=".ui.ImagesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity android:name=".ui.SavedImageActivity"></activity>
+
         <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity android:name=".ui.CreateAccountActivity"></activity>
     </application>
 

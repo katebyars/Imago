@@ -1,12 +1,12 @@
 package com.example.guest.imago.ui;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,36 +15,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
-import com.example.guest.imago.adapters.ImageListAdapter;
-import com.example.guest.imago.models.Image;
-import com.example.guest.imago.services.UnsplashService;
+import com.example.guest.imago.ui.ImageListActivity;
+import com.example.guest.imago.ui.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.io.IOException;
-import java.util.ArrayList;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.findImagesButton) Button mFindImagesButton;
-    @Bind(R.id.searchEditText) EditText mSearchEditText;
     @Bind(R.id.appNameTextView) TextView mAppNameTextView;
-    @Bind(R.id.recentSearches) TextView mRecentSearchesTextView;
     @Bind(R.id.savedImagesButton) Button mSavedImagesButton;
 
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
-    private String mRecentAddress;
-    private ImageListAdapter mAdapter;
-    public ArrayList<Image> mImages = new ArrayList<>();
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,36 +45,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Typeface blackTinBox = Typeface.createFromAsset(getAssets(), "fonts/Walkwayrounded.ttf");
-        mAppNameTextView.setTypeface(blackTinBox);
+        Typeface walkway = Typeface.createFromAsset(getAssets(), "fonts/Walkwayrounded.ttf");
+        mAppNameTextView.setTypeface(walkway);
 
         mFindImagesButton.setOnClickListener(this);
         mSavedImagesButton.setOnClickListener(this);
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mEditor = mSharedPreferences.edit();
 
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
+        mAuth = FirebaseAuth.getInstance();
 
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
+                } else {
+
+                }
+            }
+        };
     }
 
     @Override
-    public void onClick(View v) {
-        if(v == mFindImagesButton) {
-            String query = mSearchEditText.getText().toString();
-            Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
-            intent.putExtra("query", query);
-            startActivity(intent);
-        }
-
-        if (v == mSavedImagesButton) {
-            Intent intent = new Intent(MainActivity.this, SavedImageActivity.class);
-            startActivity(intent);
-        }
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
-    private void addToSharedPreferences(String query) {
-        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, query).apply();
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     @Override
@@ -94,10 +91,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if (id == R.id.action_logout) {
             logout();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -107,6 +106,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v == mFindImagesButton) {
+            Intent intent = new Intent(MainActivity.this, ImageListActivity.class);
+            startActivity(intent);
+        }
+
+        if (v == mSavedImagesButton) {
+            Intent intent = new Intent(MainActivity.this, SavedImageActivity.class);
+            startActivity(intent);
+        }
+
     }
 
 }
