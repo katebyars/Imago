@@ -36,7 +36,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.findImagesButton) Button mFindImagesButton;
     @Bind(R.id.savedImagesButton) Button mSavedImagesButton;
-    @Bind(R.id.appNameTextView) TextView mAppNameTextView;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -46,9 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        Typeface walk = Typeface.createFromAsset(getAssets(), "fonts/Walkwayrounded.ttf");
-        mAppNameTextView.setTypeface(walk);
 
         mFindImagesButton.setOnClickListener(this);
         mSavedImagesButton.setOnClickListener(this);

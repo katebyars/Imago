@@ -13,26 +13,35 @@ import com.squareup.picasso.Picasso;
 import static com.example.guest.imago.R.id.imageImageView;
 
 public class FirebaseImageViewHolder extends RecyclerView.ViewHolder {
-    private static final int MAX_WIDTH = 200;
-    private static final int MAX_HEIGHT = 200;
+    private static final int MAX_WIDTH = 1000;
+    private static final int MAX_HEIGHT = 1000;
 
     View mView;
     Context mContext;
-    public ImageView mImageImageView;
+    public ImageView mDragIcon;
 
     public FirebaseImageViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
+
         mContext = itemView.getContext();
     }
 
     public void bindImage(Image image) {
-        mImageImageView = (ImageView) mView.findViewById(imageImageView);
+        mDragIcon = (ImageView) mView.findViewById(R.id.dragIcon);
+        ImageView savedImage = (ImageView) mView.findViewById(imageImageView);
+        TextView nameTextView = (TextView) mView.findViewById(R.id.imagePhotographerUserNameTextView);
+        TextView websiteTextView = (TextView) mView.findViewById(R.id.imagePhotographerwebsiteTextView);
+
         Picasso.with(mContext)
                 .load(image.getImageUrl())
                 .resize(MAX_WIDTH, MAX_HEIGHT)
                 .centerCrop()
-                .into(mImageImageView);
+                .into(savedImage);
+
+//        nameTextView.setText(image.getImagePhotographerUserName());
+//        websiteTextView.setText(image.getImageWebsiteLabel());
+
 
     }
 

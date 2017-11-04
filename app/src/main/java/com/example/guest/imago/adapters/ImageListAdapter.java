@@ -77,7 +77,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
             int itemPosition = getLayoutPosition();
 
             Intent intent = new Intent(mContext, ImageDetailActivity.class);
-            intent.putExtra("position", itemPosition + "");
+            intent.putExtra("position", itemPosition);
             intent.putExtra("images", Parcels.wrap(mImages));
 
             mContext.startActivity(intent);

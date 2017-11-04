@@ -1,5 +1,4 @@
 package com.example.guest.imago.ui;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -17,10 +16,8 @@ import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.services.UnsplashService;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;

@@ -3,6 +3,7 @@ package com.example.guest.imago.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.MotionEventCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, FirebaseImageViewHolder> implements ItemTouchHelperAdapter {
+
     private ChildEventListener mChildEventListener;
     private ArrayList<Image> mImages = new ArrayList<>();
     private DatabaseReference mRef;
@@ -70,7 +72,9 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
     @Override
     protected void populateViewHolder(final FirebaseImageViewHolder viewHolder, Image model, int position) {
         viewHolder.bindImage(model);
-        viewHolder.mImageImageView.setOnTouchListener(new View.OnTouchListener() {
+
+        viewHolder.mDragIcon.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
@@ -86,6 +90,9 @@ public class FirebaseImageListAdapter extends FirebaseRecyclerAdapter<Image, Fir
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ImageDetailActivity.class);
                 intent.putExtra("position", viewHolder.getAdapterPosition());
+                Log.d("hello", "hello");
+                Log.d("getAdapterposition", String.valueOf(viewHolder.getAdapterPosition()));
+
                 intent.putExtra("images", Parcels.wrap(mImages));
                 mContext.startActivity(intent);
             }

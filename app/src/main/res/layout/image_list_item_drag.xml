@@ -15,6 +15,7 @@
             android:id="@+id/imageImageView"
             android:src="@drawable/waffles"
             android:scaleType="centerCrop"/>
+
         <ImageView
             android:id="@+id/dragIcon"
             android:layout_width="30dp"

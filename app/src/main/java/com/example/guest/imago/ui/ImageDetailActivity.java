@@ -15,7 +15,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ImageDetailActivity extends AppCompatActivity {
-    @Bind(R.id.viewPager) ViewPager mViewPager;
+    @Bind(R.id.viewPager)
+    ViewPager mViewPager;
+
     private ImagePagerAdapter adapterViewPager;
     ArrayList<Image> mImages = new ArrayList<>();
 
