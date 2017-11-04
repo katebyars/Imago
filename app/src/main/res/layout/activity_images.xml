@@ -7,7 +7,7 @@
     android:background="@color/colorAccent">
 
     <fragment
-        android:id="@+id/fragmentRestaurantList"
+        android:id="@+id/fragmentImageList"
         android:name="com.example.guest.imago.ui.ImageListFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
