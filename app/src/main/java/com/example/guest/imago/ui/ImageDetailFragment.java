@@ -1,7 +1,4 @@
 package com.example.guest.imago.ui;
-
-import com.example.guest.imago.R;
-import com.example.guest.imago.models.Image;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.guest.imago.Constants;
 import com.example.guest.imago.R;
 import com.example.guest.imago.models.Image;
@@ -28,13 +26,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ImageDetailFragment extends Fragment implements View.OnClickListener {
-
     private static final int MAX_WIDTH = 400;
     private static final int MAX_HEIGHT = 300;
 
     @Bind(R.id.imageImageView) ImageView mImageLabel;
-    @Bind(R.id.savedImagesButton) Button mSaveImageButton;
+    @Bind(R.id.imagePhotographerUserNameTextView) TextView mNameLabel;
     @Bind(R.id.imagePhotographerwebsiteTextView) TextView mWebsiteLabel;
+    @Bind(R.id.saveImageButton) Button mSaveImageButton;
+
 
     private Image mImage;
 
@@ -63,6 +62,10 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                 .centerCrop()
                 .into(mImageLabel);
 
+        mNameLabel.setText(mImage.getImagePhotographerUserName());
+        mWebsiteLabel.setText(mImage.getImageWebsiteLabel());
+
+        mNameLabel.setOnClickListener(this);
         mWebsiteLabel.setOnClickListener(this);
         mSaveImageButton.setOnClickListener(this);
 
@@ -71,7 +74,6 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-
         if (v == mWebsiteLabel) {
             Intent webIntent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse(mImage.getImageWebsiteLabel()));
@@ -94,6 +96,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
