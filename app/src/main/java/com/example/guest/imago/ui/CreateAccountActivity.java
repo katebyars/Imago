@@ -1,5 +1,6 @@
 package com.example.guest.imago.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import butterknife.ButterKnife;
 import butterknife.Bind;
@@ -26,6 +28,10 @@ import butterknife.Bind;
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = CreateAccountActivity.class.getSimpleName();
+    private ProgressDialog mAuthProgressDialog;
+    private String mName;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Bind(R.id.createAccountTextView)
     TextView mCreateAccountTextView;
@@ -48,8 +54,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     @Bind(R.id.confirmPasswordEditText)
     EditText mConfirmPasswordEditText;
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
     @Override
@@ -59,23 +63,20 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
         ButterKnife.bind(this);
 
-        Typeface blackTinBox = Typeface.createFromAsset(getAssets(), "fonts/Walkwayrounded.ttf");
-        mCreateAccountTextView.setTypeface(blackTinBox);
+        mAuth = FirebaseAuth.getInstance();
+
+        createAuthStateListener();
+        createAuthProgressDialog();
 
         mLoginTextView.setOnClickListener(this);
         mCreateUserButton.setOnClickListener(this);
-
-        mAuth = FirebaseAuth.getInstance();
-        createAuthStateListener();
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
-
 
     @Override
     public void onStop() {
@@ -84,7 +85,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
 
     @Override
     public void onClick(View view) {
@@ -103,37 +103,28 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void createNewUser() {
-        final String name = mNameEditText.getText().toString().trim();
+        mName = mNameEditText.getText().toString().trim();
         final String email = mEmailEditText.getText().toString().trim();
         String password = mPasswordEditText.getText().toString().trim();
         String confirmPassword = mConfirmPasswordEditText.getText().toString().trim();
 
-        if (name.equals("")) {
-            mNameEditText.setError("Please enter your name");
-            return;
-        }
-        if (email.equals("")) {
-            mEmailEditText.setError("Please enter your email");
-            return;
-        }
+        boolean validEmail = isValidEmail(email);
+        boolean validName = isValidName(mName);
+        boolean validPassword = isValidPassword(password, confirmPassword);
+        if (!validEmail || !validName || !validPassword) return;
 
-        if (password.equals("")) {
-            mPasswordEditText.setError("Password cannot be blank");
-            return;
-        }
-
-        if (confirmPassword.equals("")) {
-            mConfirmPasswordEditText.setError("Please confirm your password.");
-            return;
-        }
+        mAuthProgressDialog.show();
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
+                mAuthProgressDialog.dismiss();
+
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Authentication successful");
+                    createFirebaseUserProfile(task.getResult().getUser());
                 } else {
                     Toast.makeText(CreateAccountActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
@@ -142,6 +133,21 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             }
 
         });
+    }
+
+    private void createFirebaseUserProfile(final FirebaseUser user) {
+        UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
+                .setDisplayName(mName)
+                .build();
+        user.updateProfile(addProfileName)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, user.getDisplayName());
+                        }
+                    }
+                });
     }
 
     private void createAuthStateListener() {
@@ -158,4 +164,41 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             }
         };
     }
+
+    private void createAuthProgressDialog() {
+        mAuthProgressDialog = new ProgressDialog(this);
+        mAuthProgressDialog.setTitle("Loading...");
+        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
+        mAuthProgressDialog.setCancelable(false);
+    }
+
+    private boolean isValidEmail(String email) {
+        boolean isGoodEmail =
+                (email != null && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        if (!isGoodEmail) {
+            mEmailEditText.setError("Please enter a valid email address");
+            return false;
+        }
+        return isGoodEmail;
+    }
+
+    private boolean isValidName(String name) {
+        if (name.equals("")) {
+            mNameEditText.setError("Please enter your name");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidPassword(String password, String confirmPassword) {
+        if (password.length() < 6) {
+            mPasswordEditText.setError("Please create a password containing at least 6 characters");
+            return false;
+        } else if (!password.equals(confirmPassword)) {
+            mPasswordEditText.setError("Passwords do not match");
+            return false;
+        }
+        return true;
+    }
+
 }
