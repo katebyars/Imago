@@ -7,13 +7,6 @@
     tools:context="com.example.guest.imago.ui.MainActivity"
     android:background="#000000">
 
-    <FrameLayout
-        android:id="@+id/recyclerViewFragmentFrame"
-        android:background="@color/colorWhite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="350dp"></FrameLayout>
-
     <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -54,23 +47,6 @@
             tools:layout_constraintTop_creator="1"
             android:textColor="@color/colorDivider"/>
 
-        <EditText
-            android:textColor="@color/colorDivider"
-            android:id="@+id/searchEditText"
-            android:layout_width="232dp"
-            android:layout_height="34dp"
-            android:layout_above="@+id/findImagesButton"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/colorWhite"
-            android:hint="search photographers"
-            android:textColorHint="@color/colorDivider"
-            android:padding="5dp"
-            android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appNameTextView" />
-
         <Button
             android:id="@+id/findImagesButton"
            android:layout_height="wrap_content"
@@ -80,9 +56,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="9dp"
             android:background="@drawable/arrow"
-            app:layout_constraintBaseline_toBaselineOf="@+id/searchEditText"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toRightOf="@+id/searchEditText"
             app:layout_constraintRight_toRightOf="parent" />
     </android.support.constraint.ConstraintLayout>
 

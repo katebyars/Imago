@@ -7,13 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <fragment
-        android:id="@+id/fragmentImagesList"
-        android:name="com.example.guest.imago.ui.SavedImageListFragment"
-        android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:layout_weight="3"
-        tools:layout="@layout/fragment_image_list" />
 
     <View android:background="@color/colorAccent"
         android:layout_width="2dp"

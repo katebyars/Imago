@@ -1,4 +1,5 @@
 package com.example.guest.imago.ui;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -16,8 +17,10 @@ import com.example.guest.imago.R;
 import com.example.guest.imago.adapters.ImageListAdapter;
 import com.example.guest.imago.models.Image;
 import com.example.guest.imago.services.UnsplashService;
+
 import java.io.IOException;
 import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;
@@ -25,7 +28,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class ImageListActivity extends AppCompatActivity {
-
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private String mRecentAddress;
@@ -49,8 +51,8 @@ public class ImageListActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
 
-        if (query != null) {
-            getImages(query);
+        if (mRecentAddress != null) {
+            getImages(mRecentAddress);
         }
     }
 
@@ -90,10 +92,10 @@ public class ImageListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getImages(String location) {
+    private void getImages(String query) {
         final UnsplashService unsplashService = new UnsplashService();
 
-        unsplashService.findImages(location, new Callback() {
+        unsplashService.findImages(query, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -120,8 +122,8 @@ public class ImageListActivity extends AppCompatActivity {
         });
     }
 
-    private void addToSharedPreferences(String location) {
-        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
+    private void addToSharedPreferences(String query) {
+        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, query).apply();
     }
 
 }

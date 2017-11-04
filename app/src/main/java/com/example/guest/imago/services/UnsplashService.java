@@ -19,7 +19,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.example.guest.imago.Constants.UNSPLASH_TOKEN;
 public class UnsplashService {
 
     public ArrayList<Image> processResults(Response response) {
@@ -75,15 +74,14 @@ public class UnsplashService {
         OkHttpClient client = new OkHttpClient.Builder()
                 .build();
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.unsplash.com/search/photos").newBuilder();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.UNSPLASH_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter("client_id", "e3d57945b0b8f1b07a7136f70efc3f7038495d6f2f58a7e4daaeb54d97eac394");
-        urlBuilder.addQueryParameter(Constants.UNSPLASH_QUERY_PARAMETER, query);
+        urlBuilder.addQueryParameter("query", query);
         String url = urlBuilder.build().toString();
 
         Request request= new Request.Builder()
                 .url(url)
                 .build();
-        Log.d("url", url);
 
         Call call = client.newCall(request);
         call.enqueue(callback);

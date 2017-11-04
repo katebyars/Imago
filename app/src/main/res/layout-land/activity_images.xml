@@ -3,14 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ImageListActivity">>
-    <fragment
-        android:id="@+id/fragmentImageList"
-        android:name="com.example.guest.imago.ui.ImageListFragment"
-        android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:layout_weight="3"
-        tools:layout="@layout/fragment_image_list" />
+    tools:context=".ui.ImageListActivity"
+    android:background="@color/colorAccent">
 
     <View android:background="@color/colorAccent"
         android:layout_width="2dp"
